@@ -1,36 +1,196 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# TalentLens
 
-## Getting Started
+TalentLens is an AI-powered recruiting assistant that allows recruiters to upload multiple CVs and search candidates using natural language.
 
-First, run the development server:
+The project combines **semantic search, structured metadata filtering, embeddings, and LLMs** to retrieve relevant candidates and generate grounded answers.
+
+## ✨ Features
+
+* Upload multiple CVs at once
+* Natural-language candidate search
+* Hybrid retrieval using:
+
+  * Semantic similarity
+  * Structured filters such as role and location
+* Candidate ranking
+* AI-generated recruiter responses
+* Interactive candidate results
+* In-app CV preview
+* Synthetic CV generation pipeline with 29 realistic candidate profiles
+
+## 🧠 Backend & AI Workflow
+
+TalentLens uses a Retrieval-Augmented Generation (RAG) pipeline:
+
+```text
+CVs
+ ↓
+Text extraction
+ ↓
+Chunking
+ ↓
+Embeddings
+ ↓
+Vector store
+ ↓
+Natural-language query
+ ↓
+Query parsing
+ ↓
+Metadata filtering + semantic search
+ ↓
+Candidate ranking
+ ↓
+LLM-generated grounded answer
+```
+
+The natural-language query is first converted into structured search criteria such as role and location, while the semantic part of the query is converted into an embedding.
+
+The system then combines metadata filtering with vector similarity to retrieve the most relevant candidates.
+
+Only the retrieved candidate information is provided to the final LLM, which generates the recruiter-facing answer.
+
+## 🏗️ Project Structure
+
+```text
+src/
+├── app/
+│   ├── api/
+│   │   ├── chat/
+│   │   ├── cv/
+│   │   └── upload/
+│   ├── page.tsx
+│   └── page.module.css
+│
+├── components/
+│   ├── CandidateChips.tsx
+│   ├── CandidateList.tsx
+│   ├── Chat.tsx
+│   ├── CVDialog.tsx
+│   ├── Navbar.tsx
+│   └── UploadCVs.tsx
+│
+├── rag/
+│   ├── answer.ts
+│   ├── candidates.ts
+│   ├── chunkText.ts
+│   ├── embeddings.ts
+│   ├── indexCV.ts
+│   ├── queryParser.ts
+│   └── vectorStore.ts
+│
+└── types.ts
+
+scripts/
+├── generateCandidates.ts
+├── generateHeadshots.ts
+├── renderPDFs.ts
+├── indexCVs.ts
+└── testRag.ts
+```
+
+## 🛠️ Tech Stack
+
+* **Next.js**
+* **React**
+* **TypeScript**
+* **OpenAI GPT-4.1**
+* **OpenAI text embeddings**
+* **Zod**
+* **Local vector store**
+* **PDF generation**
+
+## 🚀 Getting Started
+
+### 1. Clone the repository
+
+```bash
+git clone <your-repository-url>
+cd cv-generator
+```
+
+### 2. Install dependencies
+
+```bash
+npm install
+```
+
+### 3. Configure the OpenAI API key
+
+Create a `.env.local` file:
+
+```env
+OPENAI_API_KEY=your_api_key_here
+```
+
+### 4. Start the application
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```text
+http://localhost:3000
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 📄 Generate the Demo CV Dataset
 
-## Learn More
+The generated CVs are intentionally **not included in the repository** because they are generated artifacts and can be recreated from the source code.
 
-To learn more about Next.js, take a look at the following resources:
+The project contains scripts for:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. Generating synthetic candidate profiles
+2. Generating candidate headshots
+3. Rendering the profiles as PDFs
+4. Indexing the CVs for semantic search
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Run 
+```bash
+npx tsx scripts/generateCandidates.ts
+npx tsx scripts/generateHeadshots.ts
+npx tsx scripts/renderPDFs.ts
+```
 
-## Deploy on Vercel
+## 🔎 Testing the RAG Pipeline
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+The RAG pipeline can also be tested independently from the UI.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Example query:
+
+```text
+Find frontend developers in Berlin with React experience
+```
+
+The terminal output shows:
+
+* Parsed search criteria
+* Retrieved candidates
+* Similarity scores
+* Final grounded answer
+
+Run 
+```bash
+npx tsx scripts/renderPDFs.ts
+npx tsx scripts/indexCVs.ts
+```
+
+## 🔐 Data & Privacy
+
+All candidate profiles used by the demo are **synthetically generated** and do not represent real people.
+
+Generated files and local vector stores are excluded from version control.
+
+## 🎯 Purpose
+
+TalentLens was built as a technical prototype demonstrating how an AI-powered recruiting search experience can combine:
+
+* Modern frontend development
+* API design
+* Natural-language interfaces
+* Semantic search
+* Structured filtering
+* Embeddings
+* Retrieval-Augmented Generation
+* LLM-powered responses
