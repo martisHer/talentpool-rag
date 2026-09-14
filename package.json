@@ -1,0 +1,40 @@
+{
+  "name": "cv-generator",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint",
+    "generate:candidates": "tsx scripts/generateCandidates.ts",
+    "generate:headshots": "tsx scripts/generateHeadshots.ts",
+    "generate:pdfs": "tsx scripts/renderPDFs.ts",
+    "test:pdf": "tsx scripts/testPDFExtraction.ts",
+    "index:cvs": "tsx scripts/indexCVs.ts",
+    "search:cvs": "tsx scripts/testSearch.ts",
+    "rag:test": "tsx scripts/testRag.ts"
+  },
+  "dependencies": {
+    "dotenv": "^17.4.2",
+    "next": "16.3.5",
+    "openai": "^7.15.0",
+    "pdf-parse": "^2.4.5",
+    "playwright": "^1.63.0",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
+    "slugify": "^1.6.9",
+    "zod": "^4.6.5"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20.19.43",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.3.5",
+    "tailwindcss": "^4",
+    "tsx": "^4.23.13",
+    "typescript": "^5"
+  }
+}
